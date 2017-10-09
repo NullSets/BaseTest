@@ -1,0 +1,6 @@
+
+
+
+print(globals()[''])
+locals()
+

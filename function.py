@@ -118,6 +118,91 @@ print(power(*interval(3,7)))
 
 
 
+"""
+6.5 作用域
+"""
+
+#“不可见”的字典
+x = 1
+scope = vars()   #返回这个字典
+print(scope['x'])
+scope['x'] += 1
+print(x)
+
+
+#这类“不可见字典”叫做命名空间或者作用域
+
+
+#全局变量
+#访问全局变量
+def combine(parameter):
+    print(parameter + globals()["parameter"])    #全局变量跟局部变量同名，但又想访问全局变量
+parameter = 'berry'
+combine(parameter)
+
+#重绑定全局变量
+x  = 1
+def change_global():
+    global x          #声明全局变量
+    x = x + 1
+change_global()
+print(x)
+
+#嵌套作用域
+def multiplier(factor):
+    def multiplyByFactor(number):
+        return number * factor
+    return multiplyByFactor
+double  = multiplier(2)
+print(double(5))
+triple = multiplier(3)
+print(triple(3))
+print(multiplier(5)(4))
+
+# python3  nonlocal关键字 可以让用户对外部作用域（但并非全局作用域）的
+# 变量进行赋值
+
+
+
+def power(x,n):
+    if n == 0:
+        return 1
+    else:
+        return x * power(x,n-1)
+
+#二分查找
+def search(sequence,number,lower,upper):
+    if lower == upper:
+        assert( number == sequence[upper])
+        return upper
+    else:
+        middle = (lower + upper ) // 2
+        if number > sequence[middle]:
+            return search(sequence,number,middle + 1,upper)
+        else:
+            return search(sequence,number,lower,middle)
+
+#使用标准库实现二分查找
+import bisect
+
+
+#函数型编程
+import functools
+#map
+print(list(map(str,range(10))))
+
+#filter
+def func(x):
+    return x.isalnum()  #如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False
+seq = ["foot",'x41','?!','***']
+print(list(filter(func,seq)))
+print([x for x in seq if x.isalnum()])
+print(list(filter(lambda x:x.isalnum(),seq)))
+
+#reduce
+numbers = [72,101,108,108,111,44,32,119,111,114,108,100,33]
+print(functools.reduce(lambda x,y:x+y,numbers))
+print(sum(numbers))
 
 
 
